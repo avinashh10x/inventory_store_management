@@ -16,9 +16,10 @@ function History() {
             }
         };
 
+
+
         fetchHistory();
     }, []); // Empty dependency array to run only once on mount
-
     return (
         <Box mt={8}>
             <Table variant="striped" colorScheme="gray">
