@@ -1,0 +1,68 @@
+import React, { useContext, useState } from 'react';
+import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Text, SimpleGrid, Card, CardBody, Heading, Flex, Icon, HStack, VStack } from '@chakra-ui/react';
+import { TbPackages } from "react-icons/tb";
+import { FaCubesStacked } from "react-icons/fa6";
+import { IoIosPricetags } from "react-icons/io";
+
+import { ProductContext } from '../context/ProductContext';
+
+function Category() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { category, fetchCategories } = useContext(ProductContext);
+
+    const openModal = async () => {
+        await fetchCategories();
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    return (
+        <>
+            <Card maxW='sm' boxShadow='xl'>
+                <CardBody>
+                    <Heading size='md'>Category</Heading>
+                    <Flex justify='space-between' align='center' mt={4}>
+                        <Button variant='outline' onClick={openModal}>See All Categories</Button>
+                        <Flex align='center'>
+                            <Icon as={FaCubesStacked} boxSize={5} />
+                            <Heading size='md' ml={2}>{category.length}</Heading>
+                        </Flex>
+                    </Flex>
+                </CardBody>
+            </Card>
+
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Categories</ModalHeader>
+                    <ModalBody maxH="70vh" overflowY="auto" css={{ '&::-webkit-scrollbar': { display:'none' } }}>
+                        <SimpleGrid columns={1} spacing={4}>
+                            {category.map((category, index) => (
+                                <Card key={index}>
+                                    <CardBody>
+                                        <HStack justify={'space-between'}>
+                                            <Text fontWeight='bold'>{category.name}</Text>
+                                            <HStack>
+                                                <Icon as={TbPackages} boxSize={4} />
+                                                <Text fontSize={'large'} fontWeight='bold'>{category.products.length}</Text>
+                                            </HStack>
+                                        </HStack>
+                                    </CardBody>
+                                </Card>
+
+                            ))}
+                        </SimpleGrid>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={closeModal}>Close</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
+    );
+}
+
+export default Category;
