@@ -5,6 +5,7 @@ import { FaCubesStacked } from "react-icons/fa6";
 import { IoIosPricetags } from "react-icons/io";
 
 import { ProductContext } from '../context/ProductContext';
+import { MdCategory } from 'react-icons/md';
 
 function Category() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,9 +24,11 @@ function Category() {
         <>
             <Card maxW='sm' boxShadow='xl'>
                 <CardBody>
-                    <Heading size='md'>Category</Heading>
+                    <Heading textAlign='center' size='md'> Total Categories</Heading>
                     <Flex justify='space-between' align='center' mt={4}>
-                        <Button variant='outline' onClick={openModal}>See All Categories</Button>
+                        <Button onClick={openModal} variant='ghost' colorScheme='purple'>
+                            See All Categories
+                        </Button>
                         <Flex align='center'>
                             <Icon as={FaCubesStacked} boxSize={5} />
                             <Heading size='md' ml={2}>{category.length}</Heading>
@@ -38,7 +41,7 @@ function Category() {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Categories</ModalHeader>
-                    <ModalBody maxH="70vh" overflowY="auto" css={{ '&::-webkit-scrollbar': { display:'none' } }}>
+                    <ModalBody maxH="70vh" overflowY="auto" css={{ '&::-webkit-scrollbar': { display: 'none' } }}>
                         <SimpleGrid columns={1} spacing={4}>
                             {category.map((category, index) => (
                                 <Card key={index}>
@@ -46,7 +49,7 @@ function Category() {
                                         <HStack justify={'space-between'}>
                                             <Text fontWeight='bold'>{category.name}</Text>
                                             <HStack>
-                                                <Icon as={TbPackages} boxSize={4} />
+                                                <Icon as={MdCategory} boxSize={4} />
                                                 <Text fontSize={'large'} fontWeight='bold'>{category.products.length}</Text>
                                             </HStack>
                                         </HStack>

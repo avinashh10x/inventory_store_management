@@ -17,7 +17,7 @@ export const ProductProvider = ({ children }) => {
         product.location.some(loc => loc.$id === selectedRoomId?.$id)
       );
       setProducts(filteredProducts);
-      console.log('Filtered Products:', filteredProducts);
+      // console.log('Filtered Products:', filteredProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -27,7 +27,7 @@ export const ProductProvider = ({ children }) => {
     try {
       const data = await listCategory();
       setCategory(data.documents);
-      console.log('Categories:', data.documents);
+      // console.log('Categories:', data.documents);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -38,7 +38,7 @@ export const ProductProvider = ({ children }) => {
       const data = await showHistory();
       setHistory(data.documents);
       
-      console.log('History:', data.documents);
+      // console.log('History:', data.documents);
     } catch (error) {
       console.error('Error fetching history:', error);
     }
@@ -46,13 +46,13 @@ export const ProductProvider = ({ children }) => {
 
   const fetchWareHouse = async () => {
     try {
-      const data = await getLocation();
-      setWarehouse(data.documents);
-      console.log('Location:', data.documents);
+        const data = await getLocation();
+        setWarehouse(data.documents); // Assuming `data.documents` contains the array of locations
+        // console.log('Location:', data.documents);
     } catch (error) {
-      console.error('Error fetching location:', error);
+        console.error('Error fetching location:', error);
     }
-  }
+};
 
   useEffect(() => {
     fetchProducts();

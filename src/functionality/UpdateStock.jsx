@@ -15,6 +15,7 @@ import {
     Input,
     Select,
     FormHelperText,
+    useToast // Import useToast hook
 } from '@chakra-ui/react';
 import { createHistory, updateProduct } from '../appwrite/Services';
 
@@ -25,12 +26,13 @@ function UpdateStock() {
     const [selectedProduct, setSelectedProduct] = useState('');
     const [detailsOfSelectedProduct, setDetailsOfSelectedProduct] = useState(null);
     const [note, setNote] = useState('');
+    const toast = useToast(); // Initialize useToast hook
 
     useEffect(() => {
         if (selectedProduct) {
             const selectedProductDetails = products.find((product) => product.$id === selectedProduct);
             setDetailsOfSelectedProduct(selectedProductDetails);
-            console.log('Selected Product Details:', selectedProductDetails);
+            // console.log('Selected Product Details:', selectedProductDetails);
         } else {
             setDetailsOfSelectedProduct(null);
         }
@@ -51,7 +53,7 @@ function UpdateStock() {
 
         try {
             const response = await createHistory(value);
-            console.log('Create History Response:', response);
+            // console.log('Create History Response:', response);
         } catch (error) {
             console.log(error + ' from create history function from service file');
             throw error;
@@ -64,15 +66,35 @@ function UpdateStock() {
         try {
             const response = await updateProduct(selectedProduct, { quantity: updatedQuantity });
             await createStockHistory();
-            console.log('Update Product Response:', response);
+            // console.log('Update Product Response:', response);
             fetchProducts();
-            fetchHistory()
+            fetchHistory();
             onClose();
             setSelectedProduct('');
             setQuantityInput('');
+
+            // Show success toast notification
+            toast({
+                title: 'Stock Updated',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+                variant: 'left-accent'
+            });
         } catch (error) {
-            console.error('Error updating product:', error);
-            // Handle error gracefully, show error message, etc.
+            // console.error('Error updating product:', error);
+
+            // Show error toast notification
+            toast({
+                title: 'Error',
+                description: 'Failed to update stock.',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+                variant: 'left-accent'
+            });
         }
     };
 

@@ -7,6 +7,7 @@ import AllProducts from './pages/AllProducts.jsx';
 import FullHistory from './pages/FullHistory.jsx';
 import Profile from './pages/Profile.jsx';
 import SearchResult from './pages/SearchResult.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 
 
 const App = () => {
@@ -14,11 +15,12 @@ const App = () => {
     <ChakraProvider>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/Home" element={<Home />} />
           <Route exact path="/products" element={<AllProducts />} />
           <Route exact path="/history" element={<FullHistory />} />
           <Route exact path="/profile" element={<Profile />} />
           <Route exact path="/search" element={<SearchResult />} />
+          <Route exact path="/" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>
 

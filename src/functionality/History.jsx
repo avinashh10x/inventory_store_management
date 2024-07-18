@@ -8,7 +8,7 @@ function History() {
     return (
         <Box mt={8}>
             <Table variant="striped" colorScheme="gray" borderRadius={5} shadow={'0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'}>
-                <Thead>
+                <Thead bg="purple.200">
                     <Tr>
                         <Th>Product Name</Th>
                         <Th>Category</Th>

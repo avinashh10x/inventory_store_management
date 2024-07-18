@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalFooter, Text, SimpleGrid, Card, CardBody, Heading, Flex, Icon, HStack, VStack } from '@chakra-ui/react';
-import { FaCubesStacked } from "react-icons/fa6";
+import { FaBoxesPacking, FaBoxesStacked, FaCubesStacked } from "react-icons/fa6";
 import { IoIosPricetags } from "react-icons/io";
 
 import { ProductContext } from '../context/ProductContext';
@@ -24,13 +24,15 @@ function Products() {
         <>
             <Card maxW='sm' boxShadow='xl'>
                 <CardBody>
-                    <Heading size='md'>Products</Heading>
+                    <Heading textAlign={'center'} size='md'> Total Products</Heading>
                     <Flex justify='space-between' align='center' mt={4}>
                         <Link to="/products">
-                            <Button variant='outline' onClick={openModal}>See All Products</Button>
+                            <Button variant='ghost'  colorScheme='purple' onClick={openModal}>
+                                See All Products
+                            </Button>
                         </Link>
                         <Flex align='center'>
-                            <Icon as={FaCubesStacked} boxSize={8} />
+                            <Icon as={FaBoxesStacked} boxSize={5} />
                             <Heading size='md' ml={2}>{products.length}</Heading>
                         </Flex>
                     </Flex>

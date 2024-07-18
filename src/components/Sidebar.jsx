@@ -6,8 +6,16 @@ import { Link } from 'react-router-dom';
 import UpdateStock from '../functionality/UpdateStock';
 import { SettingsIcon } from '@chakra-ui/icons';
 import { FaUserAlt } from 'react-icons/fa';
+import Logout from './Logout';
+
+
+
 
 function Sidebar() {
+
+
+
+
     return (
         <Flex
             w="250px"
@@ -77,7 +85,7 @@ function Sidebar() {
 
                 </VStack>
                 <VStack align="center" spacing={4}>
-                    <Button
+                    {/* <Button
                         leftIcon={<SettingsIcon />}
                         color={'white'}
                         fontWeight={'bold'}
@@ -86,8 +94,9 @@ function Sidebar() {
                         _hover={{ bg: 'purple.700' }}
                     >
                         Settings
-                    </Button>
-                    <Link to={'/profile'}>
+                    </Button> */}
+                    <Logout/>
+                    {/* <Link to={'/profile'}>
                         <Button
                             leftIcon={<FaUserAlt />}
                             color={'white'}
@@ -98,7 +107,7 @@ function Sidebar() {
                         >
                             Account
                         </Button>
-                    </Link>
+                    </Link> */}
                 </VStack>
             </VStack>
         </Flex>

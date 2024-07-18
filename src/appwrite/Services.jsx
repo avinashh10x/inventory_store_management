@@ -1,4 +1,4 @@
-import { Client, Databases, ID, Query } from "appwrite";
+import { Client, Account, Databases, ID, Query } from "appwrite";
 
 
 
@@ -12,6 +12,31 @@ client
 
 
 const databases = new Databases(client);
+const account = new Account(client);
+
+
+// Authentication
+
+const loginAccount = async (email, password) => {
+    try {
+        await account.createEmailPasswordSession(email, password);
+        console.log('User logged in successfully');
+        return await account.get();
+    } catch (error) {
+        console.log('Error while logging in: ' + error.message);
+        throw error;
+    }
+}
+
+const logout = async () => {
+    try {
+        await account.deleteSessions();
+        console.log('User logged out successfully');
+    } catch (error) {
+        console.log('Error while logging out: ' + error.message);
+    }
+}
+
 
 // products 
 
@@ -148,13 +173,13 @@ const searchProduct = async (productId) => {
 
 // location 
 
-const createLocation = async () => {
+const createLocation = async (data) => {
     try {
         const response = await databases.createDocument(
             import.meta.env.VITE_APPWRITE_DATABASE_ID,
             import.meta.env.VITE_APPWRITE_COLLECTION_LOCATION_ID,
             ID.unique(),
-            {}
+            data
         )
         return response
     } catch (error) {
@@ -191,5 +216,7 @@ export {
     showHistory,
     searchProduct,
     getLocation,
-    createLocation
+    createLocation,
+    loginAccount,
+    logout
 }

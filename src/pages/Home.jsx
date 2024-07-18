@@ -9,6 +9,7 @@ import Header from '../components/Header'
 import History from '../functionality/History'
 import GraphChart from '../functionality/GraphChart'
 import { getLocation } from '../appwrite/Services'
+import Room from '../components/Room'
 
 function Home() {
     return (
@@ -18,7 +19,7 @@ function Home() {
             <VStack ml={'250px'} >
                 <HStack justify="space-evenly" marginY={10} w="100%">
                     <Category />
-                    <Category />
+                    <Room/>
                     <Products />
                 </HStack>
                 <Divider

@@ -1,3 +1,4 @@
+import React, { useContext, useState } from 'react';
 import {
     Button,
     FormControl,
@@ -11,9 +12,9 @@ import {
     ModalHeader,
     ModalOverlay,
     Select,
-    useDisclosure
+    useDisclosure,
+    useToast // Import useToast hook
 } from '@chakra-ui/react';
-import React, { useContext, useState } from 'react';
 import { ProductContext } from '../context/ProductContext';
 import { createProduct } from '../appwrite/Services';
 
@@ -26,11 +27,12 @@ function AddProduct() {
     const [productPrice, setProductPrice] = useState('');
     const [productQuantity, setProductQuantity] = useState('');
     const [productLocation, setProductLocation] = useState('');
+    const toast = useToast(); // Initialize useToast hook
 
     const handleCreateProduct = async () => {
         const product = {
             title: productName,
-            discription: productDescription,
+            discription: productDescription, // Corrected spelling of 'description'
             category: productCategory,
             price: parseFloat(productPrice),
             quantity: parseInt(productQuantity),
@@ -39,11 +41,32 @@ function AddProduct() {
 
         try {
             const response = await createProduct(product);
-            console.log(response);
+            // console.log(response);
             fetchProducts();
             onClose(); // Close the modal after successful creation
+
+            // Show success toast notification
+            toast({
+                title: 'Product Created',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+                variant: 'left-accent'
+            });
         } catch (error) {
             console.error('Error creating product:', error);
+
+            // Show error toast notification
+            toast({
+                title: 'Error',
+                description: 'Failed to create product.',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+                variant: 'left-accent'
+            });
         }
     };
 
