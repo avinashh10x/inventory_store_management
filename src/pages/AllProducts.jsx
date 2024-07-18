@@ -25,7 +25,8 @@ import { MdAttachMoney, MdCategory } from 'react-icons/md';
 import Sidebar from '../components/Sidebar';
 import { ProductContext } from '../context/ProductContext';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import UpdateStock from '../components/UpdateStock';
+import UpdateStock from '../functionality/UpdateStock';
+import ShowRooms from '../components/ShowRooms';
 
 function AllProducts() {
     const { products, category } = useContext(ProductContext);
@@ -46,23 +47,31 @@ function AllProducts() {
         <>
             <Sidebar />
             <Flex ml="250px" flexDirection="column" p={4} bg="gray.100" minH="100vh">
-                <Center mb={6}>
-                    <Heading>All Products</Heading>
-                </Center>
+                <HStack justify="space-between" mb={6}>
+                    <Center mb={6} w={'90%'}>
+                        <Heading>All Products</Heading>
+                    </Center>
+                    <HStack spacing={4} mr={10}>
+                        <ShowRooms />
+                    </HStack>
+                </HStack>
+
                 <Box bg="white" p={4} borderRadius="md" boxShadow="md">
                     <TableContainer>
                         <Table variant="striped" colorScheme="purple">
                             <Thead>
                                 <Tr>
                                     <Th>Title</Th>
+                                    <Th>Description</Th>
                                     <Th>Price</Th>
                                     <Th>
                                         Quantity
                                     </Th>
                                     <Th>
                                         <Menu >
-                                            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                                            <MenuButton >
                                                 {selectedCategory ? selectedCategory : 'CATEGORY'}
+                                                <Icon as={ChevronDownIcon} />
                                             </MenuButton>
                                             <MenuList minWidth="150px">
                                                 <MenuItem onClick={() => setSelectedCategory('')}>All Categories</MenuItem>
@@ -80,6 +89,7 @@ function AllProducts() {
                                 {filteredProducts.map((product, index) => (
                                     <Tr key={index}>
                                         <Td>{product.title}</Td>
+                                        <Td>{product.discription}</Td>
                                         <Td>
                                             <HStack spacing={1}>
                                                 <Icon as={MdAttachMoney} />
@@ -101,7 +111,7 @@ function AllProducts() {
                             </Tbody>
                         </Table>
                     </TableContainer>
-                  
+
                 </Box>
             </Flex>
         </>

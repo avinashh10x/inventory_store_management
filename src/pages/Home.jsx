@@ -1,12 +1,14 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
-import AddProduct from '../components/AddProduct'
+import AddProduct from '../functionality/AddProduct'
 import Category from '../components/Category'
 import Products from '../components/Products'
-import { Divider, HStack, VStack } from '@chakra-ui/react'
-import UpdateStock from '../components/UpdateStock'
+import { Button, Divider, HStack, VStack } from '@chakra-ui/react'
+import UpdateStock from '../functionality/UpdateStock'
 import Header from '../components/Header'
-import History from '../components/History'
+import History from '../functionality/History'
+import GraphChart from '../functionality/GraphChart'
+import { getLocation } from '../appwrite/Services'
 
 function Home() {
     return (
@@ -23,7 +25,10 @@ function Home() {
                     w="80%"     // Set width to 80%
                     borderWidth="2px"
                 />
-                <History/>
+                <HStack justify={'space-evenly'} w={'100%'}>
+                    <GraphChart />
+                    <History />
+                </HStack>
             </VStack>
         </>
     )

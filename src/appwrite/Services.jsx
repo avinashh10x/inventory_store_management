@@ -87,7 +87,7 @@ const listCategory = async () => {
         const response = await databases.listDocuments(
             import.meta.env.VITE_APPWRITE_DATABASE_ID,
             import.meta.env.VITE_APPWRITE_COLLECTION_CATGEORY_ID,
-            [Query.orderDesc('$createdAt')]
+            [Query.orderAsc('$createdAt')]
         )
         return response
     } catch (error) {
@@ -129,6 +129,57 @@ const showHistory = async () => {
 }
 
 
+// search
+const searchProduct = async (productId) => {
+    try {
+        const response = await databases.getDocument(
+            import.meta.env.VITE_APPWRITE_DATABASE_ID,
+            import.meta.env.VITE_APPWRITE_COLLECTION_PRODUCTS_ID,
+            productId
+        )
+        return response
+    } catch (error) {
+        console.log(error + " from get product function from service file")
+        throw error
+    }
+}
+
+
+
+// location 
+
+const createLocation = async () => {
+    try {
+        const response = await databases.createDocument(
+            import.meta.env.VITE_APPWRITE_DATABASE_ID,
+            import.meta.env.VITE_APPWRITE_COLLECTION_LOCATION_ID,
+            ID.unique(),
+            {}
+        )
+        return response
+    } catch (error) {
+        console.log(error + 'from creating a document function from service file')
+        throw error
+    }
+}
+
+
+const getLocation = async () => {
+    try {
+        const response = await databases.listDocuments(
+            import.meta.env.VITE_APPWRITE_DATABASE_ID,
+            import.meta.env.VITE_APPWRITE_COLLECTION_LOCATION_ID,
+            [Query.orderAsc('$createdAt')]
+        )
+        return response
+    } catch (error) {
+        console.log(error + 'from creating a document function from service file')
+        throw error
+    }
+};
+
+
+
 
 export {
     createProduct,
@@ -138,4 +189,7 @@ export {
     updateProduct,
     createHistory,
     showHistory,
+    searchProduct,
+    getLocation,
+    createLocation
 }

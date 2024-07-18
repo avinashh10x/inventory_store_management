@@ -1,9 +1,11 @@
 import React from 'react';
-import { Flex, VStack, Spacer, Text, Box, Center, Button } from '@chakra-ui/react';
-import AddProduct from './AddProduct';
-import AddCategory from './AddCategory';
+import { Flex, VStack, Spacer, Text, Box, Center, Button, HStack, IconButton } from '@chakra-ui/react';
+import AddProduct from '../functionality/AddProduct';
+import AddCategory from '../functionality/AddCategory';
 import { Link } from 'react-router-dom';
-import UpdateStock from './UpdateStock';
+import UpdateStock from '../functionality/UpdateStock';
+import { SettingsIcon } from '@chakra-ui/icons';
+import { FaUserAlt } from 'react-icons/fa';
 
 function Sidebar() {
     return (
@@ -43,6 +45,7 @@ function Sidebar() {
                             Home
                         </Button>
                     </Link>
+                    <UpdateStock />
                     <AddProduct />
                     <AddCategory />
                     <Link to="/products">
@@ -58,11 +61,44 @@ function Sidebar() {
                             All Products
                         </Button>
                     </Link>
-                    <UpdateStock />
+                    <Link to="/history">
+                        <Button
+                            p={5}
+                            // m={2}
+                            variant={'ghost'}
+                            color={'white'}
+                            fontWeight={'bold'}
+                            fontSize={'large'}
+                            _hover={{ bg: 'purple.700' }}
+                        >
+                            history
+                        </Button>
+                    </Link>
+
                 </VStack>
                 <VStack align="center" spacing={4}>
-                    <AddProduct />
-                    <AddCategory />
+                    <Button
+                        leftIcon={<SettingsIcon />}
+                        color={'white'}
+                        fontWeight={'bold'}
+                        variant={'ghost'}
+                        aria-label="Settings"
+                        _hover={{ bg: 'purple.700' }}
+                    >
+                        Settings
+                    </Button>
+                    <Link to={'/profile'}>
+                        <Button
+                            leftIcon={<FaUserAlt />}
+                            color={'white'}
+                            fontWeight={'bold'}
+                            variant={'ghost'}
+                            aria-label="Account"
+                            _hover={{ bg: 'purple.700' }}
+                        >
+                            Account
+                        </Button>
+                    </Link>
                 </VStack>
             </VStack>
         </Flex>

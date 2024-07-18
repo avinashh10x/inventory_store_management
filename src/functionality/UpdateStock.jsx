@@ -19,34 +19,33 @@ import {
 import { createHistory, updateProduct } from '../appwrite/Services';
 
 function UpdateStock() {
-    const { products, fetchProducts } = useContext(ProductContext);
+    const { products, fetchProducts, fetchHistory } = useContext(ProductContext);
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [quantity, setQuantity] = useState(0);
+    const [quantityInput, setQuantityInput] = useState('');
     const [selectedProduct, setSelectedProduct] = useState('');
     const [detailsOfSelectedProduct, setDetailsOfSelectedProduct] = useState(null);
     const [note, setNote] = useState('');
-
 
     useEffect(() => {
         if (selectedProduct) {
             const selectedProductDetails = products.find((product) => product.$id === selectedProduct);
             setDetailsOfSelectedProduct(selectedProductDetails);
+            console.log('Selected Product Details:', selectedProductDetails);
         } else {
             setDetailsOfSelectedProduct(null);
         }
     }, [selectedProduct, products]);
+    
 
     const handleProductSelect = (productId) => {
-        const selectedProductDetails = products.find((product) => product.$id === productId);
         setSelectedProduct(productId);
-        setQuantity(selectedProductDetails.quantity);
+        setQuantityInput('');
     };
-
 
     const createStockHistory = async () => {
         const value = {
             products: selectedProduct,
-            quantity: quantity,
+            quantity: parseInt(quantityInput),
             note: note,
         };
 
@@ -59,24 +58,23 @@ function UpdateStock() {
         }
     };
 
-
     const handleSubmit = async () => {
+        const updatedQuantity = detailsOfSelectedProduct.quantity + parseInt(quantityInput);
 
         try {
-            const response = await updateProduct(selectedProduct, { quantity });
+            const response = await updateProduct(selectedProduct, { quantity: updatedQuantity });
             await createStockHistory();
             console.log('Update Product Response:', response);
-            fetchProducts()
+            fetchProducts();
+            fetchHistory()
             onClose();
             setSelectedProduct('');
-            setQuantity(0);
+            setQuantityInput('');
         } catch (error) {
             console.error('Error updating product:', error);
             // Handle error gracefully, show error message, etc.
         }
     };
-
-
 
     return (
         <>
@@ -113,8 +111,8 @@ function UpdateStock() {
                             <FormLabel>Quantity</FormLabel>
                             <Input
                                 type="number"
-                                value={quantity}
-                                onChange={(e) => setQuantity(parseInt(e.target.value))}
+                                value={quantityInput}
+                                onChange={(e) => setQuantityInput(e.target.value)}
                             />
                             <FormLabel>Note</FormLabel>
                             <Input

@@ -1,39 +1,85 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { listCategory, listProducts } from '../appwrite/Services';
+import { listCategory, listProducts, showHistory, getLocation } from '../appwrite/Services';
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [wareHouse, setWarehouse] = useState([]);
+  const [selectedRoomId, setSelectedRoomId] = useState(null);
 
   const fetchProducts = async () => {
     try {
       const data = await listProducts();
-      setProducts(data.documents); // Assuming 'documents' holds the array of products
-      console.log('Products::', data.documents);
+      const filteredProducts = data.documents.filter(product => 
+        product.location.some(loc => loc.$id === selectedRoomId?.$id)
+      );
+      setProducts(filteredProducts);
+      console.log('Filtered Products:', filteredProducts);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
   };
-
+  
   const fetchCategories = async () => {
     try {
       const data = await listCategory();
-      setCategory(data.documents); 
-      console.log('Categories:', data);
+      setCategory(data.documents);
+      console.log('Categories:', data.documents);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
   };
 
+  const fetchHistory = async () => {
+    try {
+      const data = await showHistory();
+      setHistory(data.documents);
+      
+      console.log('History:', data.documents);
+    } catch (error) {
+      console.error('Error fetching history:', error);
+    }
+  };
+
+  const fetchWareHouse = async () => {
+    try {
+      const data = await getLocation();
+      setWarehouse(data.documents);
+      console.log('Location:', data.documents);
+    } catch (error) {
+      console.error('Error fetching location:', error);
+    }
+  }
+
   useEffect(() => {
     fetchProducts();
     fetchCategories();
-  }, []); 
+    fetchHistory();
+    fetchWareHouse();
+  }, [selectedRoomId]);
+
+  // useEffect(() => {
+  //   // This effect will run whenever `products` state changes
+  //   console.log('Updated Products:', products);
+  // }, [products]); // Dependency array ensures this effect runs when `products` changes
 
   return (
-    <ProductContext.Provider value={{ products, fetchProducts, category, fetchCategories }}>
+    <ProductContext.Provider value={{
+      products, 
+      fetchProducts, 
+      category, 
+      fetchCategories, 
+      history, 
+      fetchHistory, 
+      fetchWareHouse, 
+      wareHouse, 
+      setWarehouse, 
+      selectedRoomId, 
+      setSelectedRoomId
+    }}>
       {children}
     </ProductContext.Provider>
   );
